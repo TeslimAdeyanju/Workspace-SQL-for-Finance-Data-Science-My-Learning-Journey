@@ -160,9 +160,35 @@ ORDER BY region, quarter, order_id;
 
 
 
+/* Aggregate Window Functions */ 
+
+SELECT
+    customer_id,
+    payment_date,
+    amount,
+    SUM(amount) OVER (
+        PARTITION BY customer_id
+        ORDER BY payment_date
+    ) AS running_total
+FROM payment
+WHERE customer_id IN (1, 2)
+ORDER BY customer_id, payment_date
+limit 15;
 
 
+/* Aggregate Window Functions */ 
 
+SELECT
+    i.store_id,
+    f.title,
+    p.amount,
+    SUM(p.amount) OVER (PARTITION BY i.store_id) AS store_total_revenue,
+    ROUND(p.amount / SUM(p.amount) OVER (PARTITION BY i.store_id) * 100, 2) AS pct_of_store_revenue
+FROM payment p
+JOIN rental r ON p.rental_id = r.rental_id
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id
+limit 20
 
 
 
