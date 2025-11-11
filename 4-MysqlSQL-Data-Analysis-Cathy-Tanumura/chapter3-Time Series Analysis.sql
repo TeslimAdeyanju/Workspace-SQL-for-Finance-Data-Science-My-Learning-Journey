@@ -291,6 +291,64 @@ ORDER BY DATE_PART('year', sales_month), kind_of_business, sales_month;
 
 -- Index to see Percent change over time 
 
+SELECT 
+    sales_year, 
+    sales , 
+    first_value(sales) over (ORDER BY sales_year) AS index_sales
+FROM
+    (   SELECT 
+            date_part('year',sales_month) AS sales_year , 
+            SUM(sales)                    AS sales
+        FROM 
+            retail_sales
+        WHERE 
+            kind_of_business = 'Women''s clothing stores'
+        GROUP BY 
+            1 ) a;
+
+
+--- find the percent change from this base year for each row:
+
+WITH 
+    cet AS 
+    (   SELECT 
+            date_part('year',sales_month) AS sales_year , 
+            SUM(sales)                    AS sales
+        FROM 
+            retail_sales
+        WHERE 
+            kind_of_business = 'Women''s clothing stores'
+        GROUP BY 
+            1
+    )
+SELECT 
+    sales_year, 
+    sales , 
+    first_value(sales) over (ORDER BY sales_year) AS index_sales
+FROM 
+    cet; 
+
+
+--
+
+SELECT 
+     sales_year, 
+     sales,
+     (sales / first_value(sales) over (order by sales_year) - 1) * 100
+as pct_from_index
+FROM
+(
+     SELECT 
+           date_part('year',sales_month) as sales_year,
+           sum(sales) as sales
+   FROM retail_sales
+   WHERE kind_of_business = 'Women''s clothing stores'
+   GROUP BY 1) a;
+
+-- Rolling Time Windows
+
+
+
 
 
 
