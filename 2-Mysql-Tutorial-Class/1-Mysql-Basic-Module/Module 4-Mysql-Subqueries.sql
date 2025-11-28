@@ -360,6 +360,90 @@ SELECT DISTINCT r.customer_id
 SELECT customer_id
     FROM rental
     ORDER BY rental_date DESC
-    LIMIT 1
+    LIMIT 1; 
+
+-- 
+SELECT 
+    film_id,
+    title,
+    LENGTH,
+    (   SELECT 
+            MAX(LENGTH) 
+        FROM 
+            film) AS longest_film_duration
+FROM 
+    film
+WHERE 
+    LENGTH < 
+    (   SELECT 
+            MAX(LENGTH)
+        FROM 
+            film )
+ORDER BY 
+    LENGTH DESC;
+    
+--
+SELECT film_id, 
+       title, 
+       length,
+       (SELECT MAX(length) FROM film) AS longest_film_duration
+FROM film; 
+
+-- 
+SELECT c.category_id, 
+       c.name,
+       COUNT(fc.film_id) AS film_count
+FROM category c
+LEFT JOIN film_category fc ON c.category_id = fc.category_id
+GROUP BY c.category_id, 
+          c.name
+HAVING COUNT(fc.film_id) > (
+select avg(films_per_category)
+from (
+SELECT 
+    category_id,
+    COUNT(*) AS films_per_category
+FROM 
+    film_category
+GROUP BY 
+    category_id) as a)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
