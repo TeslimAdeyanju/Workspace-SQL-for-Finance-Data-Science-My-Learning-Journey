@@ -406,7 +406,7 @@ SELECT
 FROM 
     film_category
 GROUP BY 
-    category_id) as a)
+    category_id) as info)
 
 
 
