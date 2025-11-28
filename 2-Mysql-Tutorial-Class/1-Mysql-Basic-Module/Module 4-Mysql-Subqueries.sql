@@ -406,11 +406,47 @@ SELECT
 FROM 
     film_category
 GROUP BY 
-    category_id) as info)
+    category_id) as info); 
 
+-- 
 
+SELECT film_id, title, rental_rate
+FROM film
+WHERE rental_rate = (
+    SELECT MAX(rental_rate)
+    FROM film
+);
 
-
+-- 
+SELECT
+   c.customer_id,
+   c.first_name,
+   c.last_name,
+   SUM(p.amount) AS total_spent,
+   ( SELECT
+      AVG(customer_total)
+   FROM ( SELECT
+         customer_id,
+         SUM(amount) AS customer_total
+      FROM payment
+      GROUP BY
+         customer_id) AS totals) AS avg_spending
+FROM customer c
+JOIN payment p 
+ON c.customer_id = p.customer_id
+GROUP BY
+   c.customer_id,
+   c.first_name,
+   c.last_name
+HAVING SUM(p.amount) =
+   ( SELECT
+      AVG(customer_total)
+   FROM ( SELECT
+         customer_id,
+         SUM(amount) AS customer_total
+      FROM payment
+      GROUP BY
+         customer_id ) AS customer_totals );
 
 
 
