@@ -1,3 +1,7 @@
+
+/*       */
+
+
 -- Write a query to display the names (first_name, last_name) using alias name "First Name", "Last Name"
 
 SELECT FIRST_NAME, last_name
@@ -40,21 +44,39 @@ from employees;
 
 -- 8. Write a query to get the average salary and number of employees in the employees table.
 select round(AVG(salary),2) as average_salary, count(*) as count
-from employees
+from employees;
 
 
 -- 9. Write a query to get the number of employees working with the company.
-SELECT count(*)
+SELECT DISTINCT count(EMPLOYEE_ID)
+from employees;
 
 
 
+-- 10. Write a query to get the number of jobs available in the employees table.
+select count(distinct JOB_Id)
+from employees;
 
 
 
+-- 11. Write a query get all first name from employees table in upper case.
+
+SELECT UPPER(first_name)
+from employees;
+
+-- 12. Write a query to get the first 3 characters of first name from employees table.
+SELECT LEFT(FIRST_NAME, 3) as name
+FROM employees
 
 
+-- 13. Write a query to calculate 171*214+625.
+
+select format(171 * 214 + 625, 2) as result;
 
 
+--14. Write a query to get the names (for example Ellen Abel, Sundar Ande etc.) of all the employees from employees table.
+select CONCAT(FIRST_NAME, " ",LAST_NAME) as 'Employee Name'
+from employees
 
 
 
