@@ -79,6 +79,36 @@ select CONCAT(FIRST_NAME, " ",LAST_NAME) as 'Employee Name'
 from employees
 
 
+-- 15. Write a query to get first name from employees table after removing white spaces from both side.
+select trim(first_name)
+from employees;
+
+
+-- 16. Write a query to get the length of the employee names (first_name, last_name) from employees table.
+select CONCAT(first_name, " ", last_name) as full_name,
+LENGTH (first_name) + length(last_name) as count
+from employees;
+
+
+-- 17. Write a query to check if the first_name fields of the employees table contains numbers.
+select *
+from employees
+where FIRST_NAME REGEXP '[0-9]';
+
+
+-- 18. Write a query to select first 10 records from a table.
+SELECT *
+from employees
+limit 10
+
+
+-- 19. Write a query to get monthly salary (round 2 decimal places) of each and every employee
+select FIRST_NAME, round(SALARY/12, 2) monthly_salary
+from employees
+
+
+
+
 
 
 
